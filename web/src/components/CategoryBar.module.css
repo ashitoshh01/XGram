@@ -1,0 +1,50 @@
+.categoryBar {
+    position: sticky;
+    top: var(--header-height);
+    /* Position right below navbar */
+    height: var(--header-height);
+    /* Same height as navbar */
+    background-color: var(--background);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.categoryList {
+    display: flex;
+    gap: 1.5rem;
+    padding: 0 2rem;
+    list-style: none;
+    height: 100%;
+    align-items: center;
+}
+
+.categoryItem {
+    position: relative;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    transition: background-color 0.2s, color 0.1s;
+}
+
+.categoryItem:hover {
+    background-color: var(--bg-hover);
+    color: var(--primary);
+}
+
+.categoryItem.active {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    font-weight: 600;
+}
+
+/* Hide scrollbar for category bar overflow */
+.categoryBar::-webkit-scrollbar {
+    display: none;
+}

@@ -1,0 +1,31 @@
+.productGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    max-width: var(--max-width);
+    margin: 0 auto;
+}
+
+.loadMoreContainer {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+    margin-bottom: 4rem;
+}
+
+.loadMoreBtn {
+    background-color: var(--background);
+    color: var(--primary);
+    border: 1px solid var(--border);
+    padding: 0.8rem 2rem;
+    border-radius: var(--radius);
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.loadMoreBtn:hover {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}

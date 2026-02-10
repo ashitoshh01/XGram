@@ -1,0 +1,130 @@
+.filterSection {
+    padding: 1rem 2rem;
+    background-color: var(--background);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: calc(var(--header-height) + var(--header-height));
+    /* Below nav & cat bar */
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.filtersContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.filters {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.filterGroup {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filterToggleMobile {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--primary);
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0.5rem 0;
+}
+
+.label {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.select {
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background-color: var(--background);
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    min-width: 150px;
+}
+
+.rangeInput {
+    width: 150px;
+    cursor: pointer;
+}
+
+.sortContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+}
+
+@media (max-width: 768px) {
+    .filterSection {
+        padding: 0.5rem 1rem;
+        top: var(--header-height);
+        /* Category bar might scroll away or stick? Assuming sticky */
+        /* If CategoryBar is sticky, we need to account for it. 
+         CategoryBar is ~50px. Navbar is ~70px.
+      */
+    }
+
+    .filtersContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+
+    .filters {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+        display: none;
+        /* Hidden by default on mobile */
+    }
+
+    .filters.open {
+        display: flex;
+    }
+
+    .filterToggleMobile {
+        display: flex;
+    }
+
+    .sortContainer {
+        width: 100%;
+        justify-content: space-between;
+        margin-left: 0;
+        padding-top: 0.5rem;
+        border-top: 1px solid var(--border);
+    }
+
+    .filterGroup {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .select,
+    .rangeInput {
+        width: 100%;
+    }
+
+    /* Adjust sticky top if category bar scrolls away or stays. 
+     For now let's keep it simple.
+  */
+}
