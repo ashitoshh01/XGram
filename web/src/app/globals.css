@@ -1,39 +1,45 @@
 :root {
   --background: #FFFFFF;
-  --bg-secondary: #F8F9FA;
-  --bg-hover: #F1F5F9;
+  --bg-secondary: #F4F6F8;
+  --bg-hover: #EDF2F7;
 
   --primary: #00A2F1;
-  /* Updated Primary Blue */
-  --primary-hover: #008ecc;
+  --primary-hover: #0090d6;
+  --primary-light: rgba(0, 162, 241, 0.08);
   --primary-foreground: #FFFFFF;
 
   --footer-bg: #0F1421;
-  /* Dark footer background */
 
   --secondary: #64748B;
-  /* Slate 500 */
   --accent: #E2E8F0;
-  /* Slate 200 */
-  --border: #E2E8F0;
+  --border: #E8ECF1;
+  --border-hover: #CBD5E1;
 
   --text-primary: #0F172A;
-  /* Slate 900 */
   --text-secondary: #475569;
-  /* Slate 600 */
   --text-muted: #94A3B8;
 
-  --radius: 8px;
-  /* Consistent rounded corners */
+  --radius: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
   --spacing-base: 1rem;
 
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.03);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+  --shadow-md: 0 4px 16px -2px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.04);
+  --shadow-lg: 0 10px 30px -5px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+  --shadow-xl: 0 20px 50px -10px rgb(0 0 0 / 0.15);
 
-  --max-width: 1280px;
-  --header-height: 70px;
-  --category-bar-height: 50px;
+  --max-width: 1360px;
+  --header-height: 72px;
+  --category-bar-height: 52px;
+
+  --font-heading: var(--font-outfit), 'Outfit', sans-serif;
+  --font-body: var(--font-dm-sans), 'DM Sans', sans-serif;
+
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
@@ -42,13 +48,33 @@
   margin: 0;
 }
 
-html,
+html {
+  font-size: 17px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  font-family: var(--font-inter), sans-serif;
+  font-family: var(--font-body);
+  font-weight: 600;
   background-color: var(--background);
   color: var(--text-primary);
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 a {
@@ -57,43 +83,57 @@ a {
 }
 
 button {
-  font-family: inherit;
+  font-family: var(--font-body);
   cursor: pointer;
   border: none;
   background: transparent;
 }
 
+input,
+select,
+textarea {
+  font-family: var(--font-body);
+}
+
 .container {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 0 var(--spacing-base);
+  padding: 0 1.5rem;
   width: 100%;
 }
 
-/* Base interactive elements */
+/* ===== Base Button Styles ===== */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: var(--radius);
-  font-weight: 500;
-  transition: all 0.2s ease;
-  padding: 0.5rem 1rem;
+  font-weight: 600;
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  transition: all var(--transition-base);
+  padding: 0.55rem 1.2rem;
+  letter-spacing: 0.01em;
 }
 
 .btn-primary {
-  background-color: var(--primary);
+  background: linear-gradient(135deg, var(--primary), #0090d6);
   color: var(--primary-foreground);
+  box-shadow: 0 2px 8px rgba(0, 162, 241, 0.25);
 }
 
 .btn-primary:hover {
-  background-color: var(--primary-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 162, 241, 0.35);
+  background: linear-gradient(135deg, #0ab4ff, var(--primary));
+}
+
+.btn-primary:active {
+  transform: translateY(0);
 }
 
 .btn-outline {
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   background-color: transparent;
   color: var(--text-primary);
 }
@@ -101,9 +141,10 @@ button {
 .btn-outline:hover {
   background-color: var(--bg-hover);
   border-color: var(--primary);
+  color: var(--primary);
 }
 
-/* Utility to hide scrollbar but keep functionality */
+/* ===== Scrollbar ===== */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -111,4 +152,10 @@ button {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* ===== Selection ===== */
+::selection {
+  background: rgba(0, 162, 241, 0.15);
+  color: var(--text-primary);
 }

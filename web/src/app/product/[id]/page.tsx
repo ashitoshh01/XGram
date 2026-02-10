@@ -3,7 +3,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import React, { useState } from "react";
-import Image from "next/image";
 import { useParams } from "next/navigation";
 import { ChevronRight } from "lucide-react";
 

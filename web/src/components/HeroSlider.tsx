@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styles from "./HeroSlider.module.css";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 
@@ -42,13 +42,13 @@ const HeroSlider = () => {
         return () => clearInterval(interval);
     }, [isPaused]);
 
-    const handleNext = () => {
+    const handleNext = useCallback(() => {
         setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
-    };
+    }, []);
 
-    const handlePrev = () => {
+    const handlePrev = useCallback(() => {
         setCurrentSlide((prev) => (prev === 0 ? SLIDES.length - 1 : prev - 1));
-    };
+    }, []);
 
     return (
         <div
@@ -69,19 +69,10 @@ const HeroSlider = () => {
                                 backgroundImage: `url(${slide.image})`,
                             }}
                         >
-                            <div
-                                style={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    width: '100%',
-                                    height: '100%',
-                                    background: 'rgba(0,0,0,0.4)',
-                                    zIndex: 1
-                                }}
-                            />
+                            {/* Gradient overlay */}
+                            <div className={styles.slideOverlay} />
 
-                            <div className={styles.slideContent} style={{ position: 'relative', zIndex: 2 }}>
+                            <div className={styles.slideContent}>
                                 <h1 className={styles.heading}>{slide.title}</h1>
                                 <p className={styles.subheading}>{slide.subtitle}</p>
                                 <button className={styles.ctaButton}>{slide.cta}</button>
@@ -91,11 +82,11 @@ const HeroSlider = () => {
                 </div>
 
                 <div className={styles.controls}>
-                    <button onClick={handlePrev} className={styles.controlBtn}>
-                        <ChevronLeft size={24} />
+                    <button onClick={handlePrev} className={styles.controlBtn} aria-label="Previous slide">
+                        <ChevronLeft size={22} />
                     </button>
-                    <button onClick={handleNext} className={styles.controlBtn}>
-                        <ChevronRight size={24} />
+                    <button onClick={handleNext} className={styles.controlBtn} aria-label="Next slide">
+                        <ChevronRight size={22} />
                     </button>
                 </div>
 

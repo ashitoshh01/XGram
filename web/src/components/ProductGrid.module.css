@@ -1,8 +1,8 @@
 .productGrid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2rem;
-    padding: 2rem;
+    gap: 1.5rem;
+    padding: 2rem 1.5rem;
     max-width: var(--max-width);
     margin: 0 auto;
 }
@@ -17,15 +17,36 @@
 .loadMoreBtn {
     background-color: var(--background);
     color: var(--primary);
-    border: 1px solid var(--border);
-    padding: 0.8rem 2rem;
-    border-radius: var(--radius);
+    border: 1.5px solid var(--border);
+    padding: 0.8rem 2.5rem;
+    border-radius: 100px;
     font-weight: 600;
-    transition: all 0.2s;
+    font-family: var(--font-heading);
+    font-size: 0.92rem;
+    transition: all var(--transition-base);
+    letter-spacing: 0.01em;
 }
 
 .loadMoreBtn:hover {
-    background-color: var(--primary);
+    background: linear-gradient(135deg, var(--primary), #0090d6);
     color: white;
-    border-color: var(--primary);
+    border-color: transparent;
+    box-shadow: 0 4px 15px rgba(0, 162, 241, 0.3);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .productGrid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1rem;
+        padding: 1.5rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .productGrid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1rem 0.75rem;
+    }
 }

@@ -3,13 +3,19 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    background-color: var(--background);
-    border-bottom: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.6);
     display: flex;
     align-items: center;
-    padding: 0 1rem;
+    padding: 0 2rem;
     justify-content: space-between;
-    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
+}
+
+.navbar:hover {
+    background: rgba(255, 255, 255, 0.92);
 }
 
 .logo {
@@ -20,92 +26,166 @@
     align-items: center;
     gap: 0.5rem;
     text-decoration: none;
+    transition: transform var(--transition-fast);
 }
 
+.logo:hover {
+    transform: scale(1.02);
+}
+
+/* ===== Search Bar ===== */
 .searchContainer {
     flex: 1;
-    max-width: 600px;
-    margin: 0 2rem;
+    max-width: 520px;
+    margin: 0 2.5rem;
     position: relative;
     display: flex;
 }
 
 .searchInput {
     width: 100%;
-    padding: 0.6rem 1rem 0.6rem 2.5rem;
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
+    padding: 0.65rem 2.8rem 0.65rem 1.2rem;
+    border-radius: 100px;
+    border: 1.5px solid var(--border);
     background-color: var(--bg-secondary);
-    font-size: 0.95rem;
-    transition: all 0.2s;
+    font-size: 0.9rem;
+    font-family: var(--font-body);
+    color: var(--text-primary);
+    transition: all var(--transition-base);
+}
+
+.searchInput::placeholder {
+    color: var(--text-muted);
+    font-weight: 400;
 }
 
 .searchInput:focus {
     outline: none;
     border-color: var(--primary);
     background-color: var(--background);
-    box-shadow: 0 0 0 2px var(--accent);
+    box-shadow: 0 0 0 4px var(--primary-light);
 }
 
 .searchIcon {
     position: absolute;
-    left: 0.75rem;
+    right: 0.9rem;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--text-secondary);
+    color: var(--text-muted);
     pointer-events: none;
+    transition: color var(--transition-fast);
 }
 
+.searchInput:focus~.searchIcon,
+.searchContainer:focus-within .searchIcon {
+    color: var(--primary);
+}
+
+/* ===== Desktop Nav ===== */
 .desktopNav {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 0.5rem;
 }
 
 .navItem {
     font-weight: 500;
+    font-family: var(--font-heading);
+    font-size: 0.92rem;
     color: var(--text-secondary);
-    transition: color 0.1s;
+    transition: all var(--transition-fast);
     text-decoration: none;
     cursor: pointer;
+    padding: 0.45rem 0.9rem;
+    border-radius: var(--radius);
+    position: relative;
+    white-space: nowrap;
 }
 
 .navItem:hover {
     color: var(--primary);
+    background: var(--primary-light);
 }
 
+.navItem::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    border-radius: 100px;
+    transition: all var(--transition-base);
+    transform: translateX(-50%);
+}
+
+.navItem:hover::after {
+    width: 50%;
+}
+
+/* ===== Actions ===== */
 .actions {
     display: flex;
-    gap: 1rem;
+    gap: 0.75rem;
     align-items: center;
+    margin-left: 0.75rem;
 }
 
+.userAvatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--bg-secondary), var(--bg-hover));
+    border: 1.5px solid var(--border);
+    transition: all var(--transition-base);
+    cursor: pointer;
+}
+
+.userAvatar:hover {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+    transform: scale(1.05);
+}
+
+/* ===== Hamburger ===== */
 .hamburger {
     display: none;
     cursor: pointer;
     color: var(--text-primary);
-    margin-right: 1rem;
+    margin-right: 0.75rem;
+    padding: 0.4rem;
+    border-radius: var(--radius);
+    transition: all var(--transition-fast);
 }
 
-/* Mobile Menu Styles */
+.hamburger:hover {
+    background: var(--bg-hover);
+}
+
+/* ===== Mobile Menu ===== */
 .mobileMenu {
     position: fixed;
     top: 0;
     right: 0;
-    width: 80%;
-    /* Slightly wider */
-    max-width: 300px;
+    width: 85%;
+    max-width: 340px;
     height: 100vh;
-    background-color: var(--background);
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    height: 100dvh;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.1);
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 0.75rem;
     transform: translateX(100%);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
     z-index: 1002;
-    /* Higher than navbar */
     overflow-y: auto;
 }
 
@@ -114,17 +194,30 @@
 }
 
 .mobileMenu .navItem {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     border-bottom: 1px solid var(--border);
-    padding: 0.8rem 0;
+    padding: 1rem 0.5rem;
     display: block;
+    border-radius: 0;
+}
+
+.mobileMenu .navItem:hover {
+    background: transparent;
+    padding-left: 1rem;
+}
+
+.mobileMenu .navItem::after {
+    display: none;
 }
 
 .mobileMenu .actions {
     flex-direction: column;
     width: 100%;
-    gap: 1rem;
-    margin-top: 1rem;
+    gap: 0.75rem;
+    margin-top: auto;
+    margin-left: 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
 }
 
 .mobileOverlay {
@@ -133,12 +226,13 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.45);
     z-index: 1001;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease;
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .mobileOverlay.open {
@@ -146,8 +240,37 @@
     visibility: visible;
 }
 
-/* Responsive Breakpoints */
+/* ===== Close Button ===== */
+.closeBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    color: var(--text-secondary);
+}
+
+.closeBtn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+    .searchContainer {
+        max-width: 300px;
+        margin: 0 1.5rem;
+    }
+}
+
 @media (max-width: 768px) {
+    .navbar {
+        padding: 0 1rem;
+    }
+
     .logo {
         font-size: 1.2rem;
     }
@@ -157,17 +280,12 @@
     }
 
     .hamburger {
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .searchContainer {
         display: none;
-        /* Hide search in header on mobile */
-    }
-
-    .navbar {
-        justify-content: space-between;
-        /* Ensure hamburger/logo stay correctly placed */
-        padding: 0 1rem;
     }
 }
