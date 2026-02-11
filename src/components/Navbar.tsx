@@ -6,9 +6,11 @@ import { Search, User, Menu, X } from "lucide-react";
 import styles from "./Navbar.module.css";
 import React, { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
     const { isAuthenticated, user } = useAuth();
+    const router = useRouter();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
 
@@ -21,6 +23,14 @@ const Navbar = () => {
     }, []);
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+    const handleProfileClick = () => {
+        if (isAuthenticated) {
+            router.push("/profile");
+        } else {
+            router.push("/login");
+        }
+    };
 
     return (
         <>
@@ -74,25 +84,23 @@ const Navbar = () => {
                     <div className={styles.actions}>
                         {!isAuthenticated ? (
                             <>
-                                <Link href="/login">
-                                    <button
-                                        className="btn btn-outline"
-                                        style={{ fontSize: "0.85rem", padding: "0.45rem 1rem" }}
-                                    >
-                                        Login
-                                    </button>
-                                </Link>
-                                <Link href="/signup">
-                                    <button
-                                        className="btn btn-primary"
-                                        style={{ fontSize: "0.85rem", padding: "0.45rem 1rem" }}
-                                    >
-                                        Sign Up
-                                    </button>
-                                </Link>
+                                <button
+                                    onClick={() => router.push("/login")}
+                                    className="btn btn-outline"
+                                    style={{ fontSize: "0.85rem", padding: "0.45rem 1rem" }}
+                                >
+                                    Login
+                                </button>
+                                <button
+                                    onClick={() => router.push("/signup")}
+                                    className="btn btn-primary"
+                                    style={{ fontSize: "0.85rem", padding: "0.45rem 1rem" }}
+                                >
+                                    Sign Up
+                                </button>
                             </>
                         ) : (
-                            <Link href="/profile">
+                            <div onClick={handleProfileClick} style={{ cursor: 'pointer' }}>
                                 <div className={styles.userAvatar}>
                                     {user?.name ? (
                                         <span style={{ fontSize: "14px", fontWeight: "bold" }}>
@@ -102,7 +110,7 @@ const Navbar = () => {
                                         <User size={18} color="var(--text-secondary)" />
                                     )}
                                 </div>
-                            </Link>
+                            </div>
                         )}
                     </div>
                 </div>
@@ -187,32 +195,38 @@ const Navbar = () => {
                 <div className={styles.actions} style={{ marginTop: "auto" }}>
                     {!isAuthenticated ? (
                         <>
-                            <Link href="/login" onClick={toggleMenu} style={{ width: "100%" }}>
-                                <button
-                                    className="btn btn-outline"
-                                    style={{ width: "100%", padding: "0.75rem" }}
-                                >
-                                    Login
-                                </button>
-                            </Link>
-                            <Link href="/signup" onClick={toggleMenu} style={{ width: "100%" }}>
-                                <button
-                                    className="btn btn-primary"
-                                    style={{ width: "100%", padding: "0.75rem" }}
-                                >
-                                    Sign Up
-                                </button>
-                            </Link>
-                        </>
-                    ) : (
-                        <Link href="/profile" onClick={toggleMenu} style={{ width: "100%" }}>
                             <button
+                                onClick={() => {
+                                    router.push("/login");
+                                    toggleMenu();
+                                }}
+                                className="btn btn-outline"
+                                style={{ width: "100%", padding: "0.75rem", marginBottom: "0.75rem" }}
+                            >
+                                Login
+                            </button>
+                            <button
+                                onClick={() => {
+                                    router.push("/signup");
+                                    toggleMenu();
+                                }}
                                 className="btn btn-primary"
                                 style={{ width: "100%", padding: "0.75rem" }}
                             >
-                                My Profile
+                                Sign Up
                             </button>
-                        </Link>
+                        </>
+                    ) : (
+                        <button
+                            onClick={() => {
+                                handleProfileClick();
+                                toggleMenu();
+                            }}
+                            className="btn btn-primary"
+                            style={{ width: "100%", padding: "0.75rem" }}
+                        >
+                            My Profile
+                        </button>
                     )}
                 </div>
             </div>
