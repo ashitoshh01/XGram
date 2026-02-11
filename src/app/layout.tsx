@@ -58,10 +58,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  icons: {
-    icon: "/icon.png",
-    apple: "/icon.png",
-  },
+
   openGraph: {
     type: "website",
     locale: "en_IN",
