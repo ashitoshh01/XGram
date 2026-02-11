@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Outfit, DM_Sans } from "next/font/google";
 import "./globals.css";
 import ClientProviders from "@/providers/ClientProviders";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -102,7 +104,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#5046E5",
+  themeColor: "#00A2F1",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -139,7 +141,13 @@ export default function RootLayout({
         />
       </head>
       <body className={`${outfit.variable} ${dmSans.variable}`}>
-        <ClientProviders>{children}</ClientProviders>
+        <ClientProviders>
+          <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <Navbar />
+            <div style={{ flex: 1 }}>{children}</div>
+            <Footer />
+          </div>
+        </ClientProviders>
       </body>
     </html>
   );

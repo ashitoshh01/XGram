@@ -2,12 +2,10 @@
 
 import React, { useState, useCallback } from "react";
 import Loader from "@/components/Loader";
-import Navbar from "@/components/Navbar";
 import CategoryBar from "@/components/CategoryBar";
 import HeroSlider from "@/components/HeroSlider";
 import FilterSection from "@/components/FilterSection";
 import ProductGrid from "@/components/ProductGrid";
-import Footer from "@/components/Footer";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -22,7 +20,6 @@ export default function Home() {
       {isLoading && <Loader onFinish={handleLoaderFinish} />}
 
       <main className={styles.mainContent} style={{ opacity: isLoading ? 0 : 1, transition: "opacity 0.5s ease" }}>
-        <Navbar />
         <CategoryBar />
         <HeroSlider />
 
@@ -41,8 +38,6 @@ export default function Home() {
         <FilterSection />
 
         <ProductGrid />
-
-        <Footer />
       </main>
     </>
   );

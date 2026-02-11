@@ -4,8 +4,6 @@ import { useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 export default function ProfilePage() {
     const { user, isAuthenticated, isLoading, logout } = useAuth();
@@ -33,36 +31,32 @@ export default function ProfilePage() {
     }
 
     return (
-        <>
-            <Navbar />
-            <div className={styles.container}>
-                <div className={styles.header}>
-                    <h1 className={styles.title}>My Profile</h1>
-                    <button onClick={logout} className={styles.logoutButton}>
-                        Sign Out
-                    </button>
+        <div className={styles.container}>
+            <div className={styles.header}>
+                <h1 className={styles.title}>My Profile</h1>
+                <button onClick={logout} className={styles.logoutButton}>
+                    Sign Out
+                </button>
+            </div>
+
+            <div className={styles.card}>
+                <div className={styles.section}>
+                    <div className={styles.label}>Full Name</div>
+                    <div className={styles.value}>{user.name}</div>
                 </div>
 
-                <div className={styles.card}>
-                    <div className={styles.section}>
-                        <div className={styles.label}>Full Name</div>
-                        <div className={styles.value}>{user.name}</div>
-                    </div>
+                <div className={styles.section}>
+                    <div className={styles.label}>Email Address</div>
+                    <div className={styles.value}>{user.email}</div>
+                </div>
 
-                    <div className={styles.section}>
-                        <div className={styles.label}>Email Address</div>
-                        <div className={styles.value}>{user.email}</div>
-                    </div>
-
-                    <div className={styles.section}>
-                        <div className={styles.label}>Account Role</div>
-                        <div className={styles.value} style={{ textTransform: "capitalize" }}>
-                            {user.role}
-                        </div>
+                <div className={styles.section}>
+                    <div className={styles.label}>Account Role</div>
+                    <div className={styles.value} style={{ textTransform: "capitalize" }}>
+                        {user.role}
                     </div>
                 </div>
             </div>
-            <Footer />
-        </>
+        </div>
     );
 }
