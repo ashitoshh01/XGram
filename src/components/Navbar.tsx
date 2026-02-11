@@ -5,8 +5,10 @@ import Image from "next/image";
 import { Search, User, Menu, X } from "lucide-react";
 import styles from "./Navbar.module.css";
 import React, { useState, useEffect } from "react";
+import { useAuth } from "@/context/AuthContext";
 
 const Navbar = () => {
+    const { isAuthenticated, user } = useAuth();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
 
@@ -70,23 +72,38 @@ const Navbar = () => {
                     </Link>
 
                     <div className={styles.actions}>
-                        <button
-                            className="btn btn-outline"
-                            style={{ fontSize: "0.85rem", padding: "0.45rem 1rem" }}
-                        >
-                            Login
-                        </button>
-                        <button
-                            className="btn btn-primary"
-                            style={{ fontSize: "0.85rem", padding: "0.45rem 1rem" }}
-                        >
-                            Sign Up
-                        </button>
-                        <Link href="/profile">
-                            <div className={styles.userAvatar}>
-                                <User size={18} color="var(--text-secondary)" />
-                            </div>
-                        </Link>
+                        {!isAuthenticated ? (
+                            <>
+                                <Link href="/login">
+                                    <button
+                                        className="btn btn-outline"
+                                        style={{ fontSize: "0.85rem", padding: "0.45rem 1rem" }}
+                                    >
+                                        Login
+                                    </button>
+                                </Link>
+                                <Link href="/signup">
+                                    <button
+                                        className="btn btn-primary"
+                                        style={{ fontSize: "0.85rem", padding: "0.45rem 1rem" }}
+                                    >
+                                        Sign Up
+                                    </button>
+                                </Link>
+                            </>
+                        ) : (
+                            <Link href="/profile">
+                                <div className={styles.userAvatar}>
+                                    {user?.name ? (
+                                        <span style={{ fontSize: "14px", fontWeight: "bold" }}>
+                                            {user.name.charAt(0).toUpperCase()}
+                                        </span>
+                                    ) : (
+                                        <User size={18} color="var(--text-secondary)" />
+                                    )}
+                                </div>
+                            </Link>
+                        )}
                     </div>
                 </div>
 
@@ -168,18 +185,35 @@ const Navbar = () => {
                 </Link>
 
                 <div className={styles.actions} style={{ marginTop: "auto" }}>
-                    <button
-                        className="btn btn-outline"
-                        style={{ width: "100%", padding: "0.75rem" }}
-                    >
-                        Login
-                    </button>
-                    <button
-                        className="btn btn-primary"
-                        style={{ width: "100%", padding: "0.75rem" }}
-                    >
-                        Sign Up
-                    </button>
+                    {!isAuthenticated ? (
+                        <>
+                            <Link href="/login" onClick={toggleMenu} style={{ width: "100%" }}>
+                                <button
+                                    className="btn btn-outline"
+                                    style={{ width: "100%", padding: "0.75rem" }}
+                                >
+                                    Login
+                                </button>
+                            </Link>
+                            <Link href="/signup" onClick={toggleMenu} style={{ width: "100%" }}>
+                                <button
+                                    className="btn btn-primary"
+                                    style={{ width: "100%", padding: "0.75rem" }}
+                                >
+                                    Sign Up
+                                </button>
+                            </Link>
+                        </>
+                    ) : (
+                        <Link href="/profile" onClick={toggleMenu} style={{ width: "100%" }}>
+                            <button
+                                className="btn btn-primary"
+                                style={{ width: "100%", padding: "0.75rem" }}
+                            >
+                                My Profile
+                            </button>
+                        </Link>
+                    )}
                 </div>
             </div>
         </>

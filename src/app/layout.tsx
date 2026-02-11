@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Outfit, DM_Sans } from "next/font/google";
 import "./globals.css";
+import ClientProviders from "@/providers/ClientProviders";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -138,7 +139,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${outfit.variable} ${dmSans.variable}`}>
-        {children}
+        <ClientProviders>{children}</ClientProviders>
       </body>
     </html>
   );
