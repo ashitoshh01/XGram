@@ -2,8 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Outfit, DM_Sans } from "next/font/google";
 import "./globals.css";
 import ClientProviders from "@/providers/ClientProviders";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import LayoutContent from "@/layouts/LayoutContent";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -61,6 +60,11 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
+  icons: {
+    icon: "/icon-new.png",
+    shortcut: "/icon-new.png",
+    apple: "/icon-new.png",
+  },
 
   openGraph: {
     type: "website",
@@ -71,7 +75,7 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
     images: [
       {
-        url: "/icon.png",
+        url: "/icon-new.png",
         width: 512,
         height: 512,
         alt: "XGram - Construction Materials Marketplace",
@@ -82,7 +86,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "XGram - Premium B2B Construction Materials Marketplace",
     description: SITE_DESCRIPTION,
-    images: ["/icon.png"],
+    images: ["/icon-new.png"],
     creator: "@xgram",
   },
   robots: {
@@ -120,7 +124,7 @@ export default function RootLayout({
     "@type": "Organization",
     name: SITE_NAME,
     url: SITE_URL,
-    logo: `${SITE_URL}/icon.png`,
+    logo: `${SITE_URL}/icon-new.png`,
     description: SITE_DESCRIPTION,
     sameAs: [],
     contactPoint: {
@@ -142,11 +146,9 @@ export default function RootLayout({
       </head>
       <body className={`${outfit.variable} ${dmSans.variable}`}>
         <ClientProviders>
-          <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-            <Navbar />
-            <div style={{ flex: 1 }}>{children}</div>
-            <Footer />
-          </div>
+          <LayoutContent>
+            {children}
+          </LayoutContent>
         </ClientProviders>
       </body>
     </html>

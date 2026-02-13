@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import styles from "./CategoryBar.module.css";
 
 const CATEGORIES = [
+    "All",
     "RMC",
     "Cement",
     "Aggregates",
@@ -14,8 +15,12 @@ const CATEGORIES = [
     "Electrical"
 ];
 
-const CategoryBar = () => {
-    const [activeCategory, setActiveCategory] = useState("RMC");
+interface CategoryBarProps {
+    activeCategory?: string;
+    onSelectCategory?: (category: string) => void;
+}
+
+const CategoryBar: React.FC<CategoryBarProps> = ({ activeCategory = "All", onSelectCategory }) => {
 
     return (
         <div className={styles.categoryBar}>
@@ -24,9 +29,9 @@ const CategoryBar = () => {
                     <li
                         key={category}
                         className={`${styles.categoryItem} ${activeCategory === category ? styles.active : ''}`}
-                        onClick={() => setActiveCategory(category)}
+                        onClick={() => onSelectCategory?.(category)}
                     >
-                        {category}
+                        <span className={styles.categoryText} data-text={category}>{category}</span>
                     </li>
                 ))}
             </ul>

@@ -13,7 +13,7 @@ const Footer = () => {
                 <div className={styles.column}>
                     <Link href="/" className={styles.logo}>
                         <Image
-                            src="/logo.png"
+                            src="/logo-new.png"
                             alt="XGram Logo"
                             width={200}
                             height={70}

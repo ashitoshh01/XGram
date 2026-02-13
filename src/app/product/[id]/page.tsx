@@ -1,10 +1,9 @@
 "use client";
 
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import React, { useState } from "react";
 import { useParams } from "next/navigation";
-import { ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
 
 // Mock Data (In a real app, this would be fetched from API)
 const PRODUCTS = [
@@ -21,17 +20,30 @@ const ProductDetail = () => {
     const [quantity, setQuantity] = useState(1);
 
     return (
-        <main>
-            <Navbar />
-
-            {/* Breadcrumb */}
-            <div className="container" style={{ padding: '1rem 0', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-                Home <ChevronRight size={14} style={{ display: 'inline', verticalAlign: 'middle' }} />
-                Products <ChevronRight size={14} style={{ display: 'inline', verticalAlign: 'middle' }} />
-                <span style={{ color: 'var(--primary)', fontWeight: 500 }}>{product.title}</span>
+        <main className="container" style={{ padding: '2rem 1.5rem 4rem' }}>
+            {/* Back Button */}
+            <div style={{ marginBottom: '1.5rem' }}>
+                <Link
+                    href="/"
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        color: 'var(--text-secondary)',
+                        fontWeight: 500,
+                        textDecoration: 'none',
+                        transition: 'color 0.2s',
+                        width: 'fit-content'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
+                >
+                    <ChevronLeft size={20} />
+                    Back to Products
+                </Link>
             </div>
 
-            <div className="container" style={{ display: 'flex', gap: '3rem', marginTop: '1rem', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: '3rem', flexWrap: 'wrap' }}>
                 {/* Left: Image Gallery */}
                 <div style={{ flex: 1, minWidth: '350px' }}>
                     <div style={{
@@ -40,7 +52,8 @@ const ProductDetail = () => {
                         borderRadius: 'var(--radius)',
                         overflow: 'hidden',
                         position: 'relative',
-                        backgroundColor: 'var(--bg-secondary)'
+                        backgroundColor: 'var(--bg-secondary)',
+                        boxShadow: 'var(--shadow-md)'
                     }}>
                         <img
                             src={product.image}
@@ -48,70 +61,50 @@ const ProductDetail = () => {
                             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         />
                     </div>
-                    <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
-                        {[1, 2, 3].map((i) => (
-                            <div key={i} style={{
-                                width: '80px',
-                                height: '80px',
-                                borderRadius: 'var(--radius)',
-                                overflow: 'hidden',
-                                cursor: 'pointer',
-                                border: '1px solid var(--border)'
-                            }}>
-                                <img
-                                    src={product.image}
-                                    alt={`Thumbnail ${i}`}
-                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                />
-                            </div>
-                        ))}
-                    </div>
                 </div>
 
                 {/* Right: Details */}
                 <div style={{ flex: 1, minWidth: '350px' }}>
-                    <h1 style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--primary)', marginBottom: '0.5rem' }}>{product.title}</h1>
-                    <p style={{ fontSize: '1.5rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '1.5rem' }}>{product.price}</p>
+                    <h1 style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.5rem', lineHeight: '1.2' }}>{product.title}</h1>
+                    <p style={{ fontSize: '1.5rem', fontWeight: 600, color: 'var(--primary)', marginBottom: '1.5rem' }}>{product.price}</p>
 
-                    <p style={{ lineHeight: '1.6', color: 'var(--text-secondary)', marginBottom: '2rem' }}>
+                    <p style={{ lineHeight: '1.6', color: 'var(--text-secondary)', marginBottom: '2rem', fontSize: '1rem' }}>
                         {product.description}
                     </p>
 
-                    <div style={{ marginBottom: '2rem' }}>
-                        <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.5rem' }}>Specifications:</h3>
-                        <ul style={{ paddingLeft: '1.2rem', color: 'var(--text-secondary)' }}>
+                    <div style={{ marginBottom: '2.5rem', background: 'var(--bg-secondary)', padding: '1.5rem', borderRadius: 'var(--radius)' }}>
+                        <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '1rem', color: 'var(--text-primary)' }}>Product Specifications:</h3>
+                        <ul style={{ paddingLeft: '1.2rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.95rem' }}>
                             {product.specs?.map((spec, i) => (
-                                <li key={i} style={{ marginBottom: '0.3rem' }}>{spec}</li>
+                                <li key={i}>{spec}</li>
                             )) || (
                                     <>
-                                        <li>High Durability</li>
-                                        <li>Industry Standard Compliance</li>
-                                        <li>Quality Verified</li>
+                                        <li>High Durability & Strength</li>
+                                        <li>Industry Standard Compliance (ISI)</li>
+                                        <li>Quality Verified by XGram</li>
                                     </>
                                 )}
                         </ul>
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', border: '1px solid var(--border)', borderRadius: 'var(--radius)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'white' }}>
                             <button
                                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                                style={{ padding: '0.5rem 1rem', fontSize: '1.2rem' }}
+                                style={{ padding: '0.6rem 1rem', fontSize: '1.1rem', color: 'var(--text-secondary)' }}
                             >-</button>
-                            <span style={{ padding: '0.5rem 1rem', fontWeight: 600 }}>{quantity}</span>
+                            <span style={{ padding: '0.6rem 1rem', fontWeight: 600, minWidth: '3rem', textAlign: 'center' }}>{quantity}</span>
                             <button
                                 onClick={() => setQuantity(quantity + 1)}
-                                style={{ padding: '0.5rem 1rem', fontSize: '1.2rem' }}
+                                style={{ padding: '0.6rem 1rem', fontSize: '1.1rem', color: 'var(--text-secondary)' }}
                             >+</button>
                         </div>
-                        <button className="btn btn-primary" style={{ padding: '0.8rem 2.5rem', fontSize: '1.1rem' }}>
-                            Get Quote / Buy Now
+                        <button className="btn btn-primary" style={{ padding: '0.8rem 2.5rem', fontSize: '1rem', flex: 1 }}>
+                            Request Quote
                         </button>
                     </div>
                 </div>
             </div>
-
-            <Footer />
         </main>
     );
 };

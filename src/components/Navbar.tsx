@@ -45,7 +45,7 @@ const Navbar = () => {
             >
                 <Link href="/" className={styles.logo}>
                     <Image
-                        src="/logo.png"
+                        src="/logo-new.png"
                         alt="XGram Logo"
                         width={180}
                         height={60}
@@ -138,7 +138,7 @@ const Navbar = () => {
                     }}
                 >
                     <Image
-                        src="/logo.png"
+                        src="/logo-new.png"
                         alt="XGram"
                         width={120}
                         height={40}
