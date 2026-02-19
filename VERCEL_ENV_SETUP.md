@@ -1,25 +1,23 @@
 # Vercel Environment Variables Setup
 
-Your Vercel deployment failed because the Firebase configuration is now secure and requires Environment Variables.
+Your Vercel deployment failed because the Firebase configuration requires environment variables that are not present in the repository (for security reasons).
 
-Please add the following Environment Variables to your Vercel Project Settings:
+To fix the deployment and secure your keys:
 
-1. Go to your **Vercel Dashboard** -> **Project** -> **Settings** -> **Environment Variables**.
-2. Add the following key-value pairs (copy exactly as shown):
+1. **Go to your Vercel Project Dashboard.**
+2. Navigate to **Settings** -> **Environment Variables**.
+3. Add the following keys. **Copy the values from your local `.env.local` file.**
 
-| Key | Value |
-|-----|-------|
-| `NEXT_PUBLIC_FIREBASE_API_KEY` | `AIzaSyAmdxQ1wdc3lnNkHZlskedqiJfE4AIOCIY` |
-| `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN` | `xgram-535be.firebaseapp.com` |
-| `NEXT_PUBLIC_FIREBASE_PROJECT_ID` | `xgram-535be` |
-| `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` | `xgram-535be.firebasestorage.app` |
-| `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID` | `249355477437` |
-| `NEXT_PUBLIC_FIREBASE_APP_ID` | `1:249355477437:web:587bd669f2664939acb2d4` |
-| `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID` | `G-7EE3C1GXXY` |
+| Key | Description |
+|-----|-------------|
+| `NEXT_PUBLIC_FIREBASE_API_KEY` | Copy from `.env.local` |
+| `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN` | Copy from `.env.local` |
+| `NEXT_PUBLIC_FIREBASE_PROJECT_ID` | Copy from `.env.local` |
+| `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` | Copy from `.env.local` |
+| `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID` | Copy from `.env.local` |
+| `NEXT_PUBLIC_FIREBASE_APP_ID` | Copy from `.env.local` |
+| `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID` | Copy from `.env.local` |
 
-**Important Security Note:**
-One of your previous commits exposed these keys. For maximum security, you should:
-1. Go to **Google Cloud Console**.
-2. **Revoke/Delete** the old API Key.
-3. **Generate a new API Key**.
-4. Use the **NEW** API Key in Vercel (update the value for `NEXT_PUBLIC_FIREBASE_API_KEY`).
+4. **Redeploy** your application (or push a new commit) for these changes to take effect.
+
+5. And you are **GOOD** to go.
