@@ -1,12 +1,8 @@
 "use client";
 
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-
 const Contact = () => {
     return (
         <main>
-            <Navbar />
             <div className="container" style={{ padding: '4rem 2rem' }}>
                 <h1 style={{ fontSize: '2.5rem', fontWeight: 700, marginBottom: '2rem', color: 'var(--primary)' }}>Contact Us</h1>
 
@@ -62,7 +58,6 @@ const Contact = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
         </main>
     );
 };

@@ -1,12 +1,8 @@
 "use client";
 
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-
 const About = () => {
     return (
         <main>
-            <Navbar />
             <div className="container" style={{ padding: '4rem 2rem' }}>
                 <h1 style={{ fontSize: '2.5rem', fontWeight: 700, marginBottom: '1.5rem', color: 'var(--primary)' }}>About XGram</h1>
                 <p style={{ fontSize: '1.1rem', lineHeight: '1.8', color: 'var(--text-secondary)', maxWidth: '800px' }}>
@@ -17,7 +13,6 @@ const About = () => {
                     for all your construction needs—from RMC and steel to electricals and plumbing.
                 </p>
             </div>
-            <Footer />
         </main>
     );
 };
