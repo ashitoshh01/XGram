@@ -69,7 +69,6 @@ export const Spinner = ({ size = 20, color = "#8f8f8f" }: SpinnerProps) => {
                     position: "absolute",
                     top: "50%",
                     left: "50%",
-                    transform: "translate(-50%, -50%)", // Center the inner container
                 }}
             >
                 {bars.map((item, i) => (

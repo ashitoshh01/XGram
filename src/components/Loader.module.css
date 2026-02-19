@@ -4,6 +4,9 @@
     left: 0;
     width: 100vw;
     height: 100vh;
+    /* Fallback */
+    height: 100dvh;
+    /* Mobile friendly */
     z-index: 99999;
     display: flex;
     align-items: center;
