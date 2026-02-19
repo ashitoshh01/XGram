@@ -74,7 +74,35 @@
     cursor: pointer;
     transition: background-color 0.2s;
     margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    height: 48px;
+    /* Fixed height to prevent resize */
 }
+
+.button:disabled {
+    background-color: #7ccdf5;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 
 .button:hover {
     background-color: #008ac9;
@@ -94,4 +122,49 @@
 
 .link:hover {
     text-decoration: underline;
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    color: #666;
+    font-size: 14px;
+    margin: 20px 0;
+}
+
+.separator::before,
+.separator::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid #ddd;
+}
+
+.separator::before {
+    margin-right: 10px;
+}
+
+.separator::after {
+    margin-left: 10px;
+}
+
+.googleButton {
+    background-color: white;
+    color: #333;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.googleButton:hover {
+    background-color: #f8f9fa;
+    border-color: #ccc;
 }

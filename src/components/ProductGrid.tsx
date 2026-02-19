@@ -3,9 +3,10 @@
 import React, { useState } from "react";
 import styles from "./ProductGrid.module.css";
 import ProductCard from "./ProductCard";
+import { Product } from "@/types";
 
 interface ProductGridProps {
-    products: any[];
+    products: Product[];
 }
 
 const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {

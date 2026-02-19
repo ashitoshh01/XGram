@@ -1,5 +1,7 @@
 
-export const PRODUCTS = [
+import { Product } from "@/types";
+
+export const PRODUCTS: Product[] = [
     { id: "1", category: "RMC", title: "Premium RMC Grade M25", description: "High-quality Ready Mix Concrete suitable for residential and commercial construction.", price: "4500", unit: "m³", image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop", materialType: "Concrete", availability: "In Stock" },
     { id: "2", category: "Cement", title: "Portland Cement 53 Grade", description: "Standard Portland cement ideal for general construction works.", price: "380", unit: "bag", image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1973&auto=format&fit=crop", materialType: "Binder", availability: "In Stock" },
     { id: "3", category: "TMT Steel", title: "TMT Steel Bars", description: "Corrosion-resistant TMT steel bars for strong structural support.", price: "65000", unit: "ton", image: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=2069&auto=format&fit=crop", materialType: "Steel", availability: "Pre-Order" },

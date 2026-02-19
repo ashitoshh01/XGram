@@ -2,18 +2,40 @@
 
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import styles from "./page.module.css";
+import styles from "@/styles/auth.module.css";
 import Link from "next/link";
+
+import LoadingButton from "@/components/ui/LoadingButton";
+import GoogleButton from "@/components/ui/GoogleButton";
 
 export default function SignupPage() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const { signup } = useAuth();
+    const [loading, setLoading] = useState(false);
+    const { signup, loginWithGoogle } = useAuth();
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        signup(name, email);
+        setLoading(true);
+        try {
+            await signup(name, email, password);
+        } catch (error) {
+            alert((error as Error).message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleGoogleLogin = async () => {
+        try {
+            await loginWithGoogle();
+        } catch (error) {
+            // Error is already logged in context, and popup-closed is ignored
+            if ((error as { code?: string }).code !== 'auth/popup-closed-by-user') {
+                alert((error as Error).message);
+            }
+        }
     };
 
     return (
@@ -68,10 +90,14 @@ export default function SignupPage() {
                         />
                     </div>
 
-                    <button type="submit" className={styles.button}>
+                    <LoadingButton isLoading={loading} loadingText="Creating Account...">
                         Create Account
-                    </button>
+                    </LoadingButton>
                 </form>
+
+                <div className={styles.separator}>Or continue with</div>
+
+                <GoogleButton onClick={handleGoogleLogin} />
 
                 <div className={styles.footer}>
                     Already have an account?{" "}

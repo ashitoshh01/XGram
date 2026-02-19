@@ -1,22 +1,21 @@
 "use client";
 
+import Image from "next/image";
+
 import React, { useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 
-// Mock Data (In a real app, this would be fetched from API)
-const PRODUCTS = [
-    { id: "1", title: "Premium RMC Grade M25", description: "High-quality Ready Mix Concrete suitable for residential and commercial construction. Features optimized aggregate grading and consistent quality control.", price: "₹4,500 / m³", image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop", specs: ["Water-Cement Ratio: 0.45", "Slump: 100-120mm", "Compressive Strength: 25 MPa"] },
-    { id: "2", title: "Portland Cement 53 Grade", description: "Standard Portland cement ideal for general construction works. Fast setting and high early strength.", price: "₹380 / bag", image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1973&auto=format&fit=crop" },
-    // ... add more or fetch dynamically
-];
+import { PRODUCTS } from "@/data/products";
+import { Product } from "@/types";
 
 const ProductDetail = () => {
     const { id } = useParams();
 
     // Find product or fallback to first one for demo if not found in mock list
-    const product = PRODUCTS.find((p) => p.id === id) || PRODUCTS[0];
+    // Use type assertion or find correctly typed
+    const product = (PRODUCTS.find((p) => p.id === id) || PRODUCTS[0]) as Product;
     const [quantity, setQuantity] = useState(1);
 
     return (
@@ -55,10 +54,12 @@ const ProductDetail = () => {
                         backgroundColor: 'var(--bg-secondary)',
                         boxShadow: 'var(--shadow-md)'
                     }}>
-                        <img
+                        <Image
                             src={product.image}
                             alt={product.title}
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            fill
+                            style={{ objectFit: 'cover' }}
+                            sizes="(max-width: 768px) 100vw, 500px"
                         />
                     </div>
                 </div>
@@ -66,7 +67,7 @@ const ProductDetail = () => {
                 {/* Right: Details */}
                 <div style={{ flex: '1 1 300px', minWidth: '250px' }}>
                     <h1 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.5rem', lineHeight: '1.3' }}>{product.title}</h1>
-                    <p style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--primary)', marginBottom: '1.5rem' }}>{product.price}</p>
+                    <p style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--primary)', marginBottom: '1.5rem' }}>₹{product.price} / {product.unit}</p>
 
                     <p style={{ lineHeight: '1.6', color: 'var(--text-secondary)', marginBottom: '2rem', fontSize: '0.95rem' }}>
                         {product.description}

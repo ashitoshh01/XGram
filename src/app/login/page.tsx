@@ -2,19 +2,39 @@
 
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext"; // Assuming context is exported correctly
-import styles from "./page.module.css";
+import styles from "@/styles/auth.module.css";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import LoadingButton from "@/components/ui/LoadingButton";
+import GoogleButton from "@/components/ui/GoogleButton";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const { login } = useAuth();
-    const router = useRouter();
+    const [loading, setLoading] = useState(false);
+    const { login, loginWithGoogle } = useAuth();
+    // router is unused
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        login(email);
+        setLoading(true);
+        try {
+            await login(email, password);
+        } catch (error) {
+            alert((error as Error).message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleGoogleLogin = async () => {
+        try {
+            await loginWithGoogle();
+        } catch (error) {
+            // Error is already logged in context, and popup-closed is ignored
+            if ((error as { code?: string }).code !== 'auth/popup-closed-by-user') {
+                alert((error as Error).message);
+            }
+        }
     };
 
     return (
@@ -54,13 +74,17 @@ export default function LoginPage() {
                         />
                     </div>
 
-                    <button type="submit" className={styles.button}>
+                    <LoadingButton isLoading={loading} loadingText="Signing In...">
                         Sign In
-                    </button>
+                    </LoadingButton>
                 </form>
 
+                <div className={styles.separator}>Or continue with</div>
+
+                <GoogleButton onClick={handleGoogleLogin} />
+
                 <div className={styles.footer}>
-                    Don't have an account?{" "}
+                    Don&apos;t have an account?{" "}
                     <Link href="/signup" className={styles.link}>
                         Sign Up
                     </Link>

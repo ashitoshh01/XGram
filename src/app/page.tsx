@@ -41,9 +41,9 @@ export default function Home() {
     }
   };
 
-  const handleFilterChange = (key: string, value: any) => {
+  const handleFilterChange = (key: string, value: string | number) => {
     setFilters(prev => ({ ...prev, [key]: value }));
-    if (key === 'category') {
+    if (key === 'category' && typeof value === 'string') {
       setSelectedCategory(value);
     }
   };
