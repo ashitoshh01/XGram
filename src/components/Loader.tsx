@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Loader.module.css";
 
-import KineticDotsLoader from "./ui/KineticDotsLoader";
+import { Spinner } from "./ui/spinner";
 
 const Loader = ({ onFinish }: { onFinish: () => void }) => {
     const [fadeOut, setFadeOut] = useState(false);
@@ -20,7 +20,7 @@ const Loader = ({ onFinish }: { onFinish: () => void }) => {
 
     return (
         <div className={`${styles.loader} ${fadeOut ? styles.fadeOut : ""}`}>
-            <KineticDotsLoader />
+            <Spinner size={60} color="#00A2F1" />
         </div>
     );
 };

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import styles from '@/styles/auth.module.css';
+import { Spinner } from './spinner';
 
 interface LoadingButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     isLoading: boolean;
@@ -19,7 +20,7 @@ export default function LoadingButton({ isLoading, loadingText = "Loading...", c
         >
             {isLoading ? (
                 <>
-                    <span className={styles.spinner}></span>
+                    <Spinner size={20} color="#ffffff" />
                     {loadingText}
                 </>
             ) : (
