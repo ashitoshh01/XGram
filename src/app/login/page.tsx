@@ -11,28 +11,47 @@ export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
     const { login, loginWithGoogle } = useAuth();
     // router is unused
+
+    const getHumanReadableError = (error: unknown) => {
+        const err = error as { code?: string };
+        const code = err?.code || "";
+        if (code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/user-not-found') {
+            return "Invalid credentials. Please check your email and password.";
+        }
+        if (code === 'auth/too-many-requests') {
+            return "Too many failed attempts. Please try again later.";
+        }
+        if (code === 'auth/network-request-failed') {
+            return "Network error. Please check your internet connection.";
+        }
+        return "An unexpected error occurred. Please try again.";
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
+        setError(null);
         try {
             await login(email, password);
-        } catch (error) {
-            alert((error as Error).message);
+        } catch (err: unknown) {
+            setError(getHumanReadableError(err));
         } finally {
             setLoading(false);
         }
     };
 
     const handleGoogleLogin = async () => {
+        setError(null);
         try {
             await loginWithGoogle();
-        } catch (error) {
+        } catch (err: unknown) {
             // Error is already logged in context, and popup-closed is ignored
-            if ((error as { code?: string }).code !== 'auth/popup-closed-by-user') {
-                alert((error as Error).message);
+            const errorObj = err as { code?: string };
+            if (errorObj?.code !== 'auth/popup-closed-by-user') {
+                setError(getHumanReadableError(err));
             }
         }
     };
@@ -42,6 +61,21 @@ export default function LoginPage() {
             <div className={styles.card}>
                 <h1 className={styles.title}>Welcome Back</h1>
                 <p className={styles.subtitle}>Sign in to access your account</p>
+
+                {error && (
+                    <div style={{
+                        padding: '1rem',
+                        marginBottom: '1.5rem',
+                        borderRadius: 'var(--radius)',
+                        backgroundColor: '#fee2e2',
+                        color: '#991b1b',
+                        border: '1px solid #f87171',
+                        fontSize: '0.9rem',
+                        textAlign: 'center'
+                    }}>
+                        {error}
+                    </div>
+                )}
 
                 <form onSubmit={handleSubmit} className={styles.form}>
                     <div className={styles.inputGroup}>
@@ -72,6 +106,11 @@ export default function LoginPage() {
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
+                        <div style={{ textAlign: "right", marginTop: "-5px" }}>
+                            <Link href="/forgot-password" className={styles.link} style={{ fontSize: "13px" }}>
+                                Forgot Password?
+                            </Link>
+                        </div>
                     </div>
 
                     <LoadingButton isLoading={loading} loadingText="Signing In...">

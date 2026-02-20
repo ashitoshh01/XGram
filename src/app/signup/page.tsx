@@ -13,27 +13,48 @@ export default function SignupPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
     const { signup, loginWithGoogle } = useAuth();
+
+    const getHumanReadableError = (error: unknown) => {
+        const err = error as { code?: string };
+        const code = err?.code || "";
+        if (code === 'auth/email-already-in-use') {
+            return "This email is already registered. Please sign in instead.";
+        }
+        if (code === 'auth/invalid-email') {
+            return "Please enter a valid email address.";
+        }
+        if (code === 'auth/weak-password') {
+            return "Password is too weak. Please use at least 6 characters.";
+        }
+        if (code === 'auth/network-request-failed') {
+            return "Network error. Please check your internet connection.";
+        }
+        return "An unexpected error occurred. Please try again.";
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
+        setError(null);
         try {
             await signup(name, email, password);
-        } catch (error) {
-            alert((error as Error).message);
+        } catch (err: unknown) {
+            setError(getHumanReadableError(err));
         } finally {
             setLoading(false);
         }
     };
 
     const handleGoogleLogin = async () => {
+        setError(null);
         try {
             await loginWithGoogle();
-        } catch (error) {
-            // Error is already logged in context, and popup-closed is ignored
-            if ((error as { code?: string }).code !== 'auth/popup-closed-by-user') {
-                alert((error as Error).message);
+        } catch (err: unknown) {
+            const errorObj = err as { code?: string };
+            if (errorObj?.code !== 'auth/popup-closed-by-user') {
+                setError(getHumanReadableError(err));
             }
         }
     };
@@ -43,6 +64,21 @@ export default function SignupPage() {
             <div className={styles.card}>
                 <h1 className={styles.title}>Create Account</h1>
                 <p className={styles.subtitle}>Get started with XGram today</p>
+
+                {error && (
+                    <div style={{
+                        padding: '1rem',
+                        marginBottom: '1.5rem',
+                        borderRadius: 'var(--radius)',
+                        backgroundColor: '#fee2e2',
+                        color: '#991b1b',
+                        border: '1px solid #f87171',
+                        fontSize: '0.9rem',
+                        textAlign: 'center'
+                    }}>
+                        {error}
+                    </div>
+                )}
 
                 <form onSubmit={handleSubmit} className={styles.form}>
                     <div className={styles.inputGroup}>

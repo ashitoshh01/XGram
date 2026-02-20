@@ -12,6 +12,7 @@ import {
     signOut,
     updateProfile,
     sendEmailVerification,
+    sendPasswordResetEmail,
     User as FirebaseUser
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
@@ -30,6 +31,7 @@ interface AuthContextType {
     signup: (name: string, email: string, password: string) => Promise<void>;
     loginWithGoogle: () => Promise<void>;
     logout: () => void;
+    resetPassword: (email: string) => Promise<void>;
     isAuthenticated: boolean;
 }
 
@@ -117,6 +119,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
+    const resetPassword = async (email: string) => {
+        try {
+            await sendPasswordResetEmail(auth, email);
+        } catch (error) {
+            console.error("Reset password failed:", (error as Error).message);
+            throw error;
+        }
+    };
+
     return (
         <AuthContext.Provider
             value={{
@@ -126,6 +137,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 signup,
                 loginWithGoogle,
                 logout,
+                resetPassword,
                 isAuthenticated: !!user,
             }}
         >
