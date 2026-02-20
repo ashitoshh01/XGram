@@ -94,7 +94,7 @@
 
 .ctaButton {
     align-self: flex-start;
-    background: linear-gradient(135deg, var(--primary), #0090d6);
+    background: var(--blue-600);
     color: white;
     padding: 0.8rem 2rem;
     font-size: 0.95rem;
@@ -105,14 +105,14 @@
     cursor: pointer;
     margin-top: 0.75rem;
     transition: all var(--transition-base);
-    box-shadow: 0 4px 15px rgba(0, 162, 241, 0.3);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
     letter-spacing: 0.01em;
 }
 
 .ctaButton:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 162, 241, 0.4);
-    background: linear-gradient(135deg, #0ab4ff, var(--primary));
+    transform: scale(1.03) translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    background: var(--blue-500);
 }
 
 .ctaButton:active {

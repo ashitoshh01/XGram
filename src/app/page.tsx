@@ -27,6 +27,17 @@ export default function Home() {
     setFilters(prev => ({ ...prev, category: selectedCategory }));
   }, [selectedCategory]);
 
+  // Read initial category from URL if present
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialCategory = urlParams.get("category");
+      if (initialCategory) {
+        setSelectedCategory(initialCategory);
+      }
+    }
+  }, []);
+
   const handleLoaderFinish = useCallback(() => {
     setIsLoading(false);
   }, []);

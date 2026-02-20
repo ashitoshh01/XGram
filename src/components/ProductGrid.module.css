@@ -28,10 +28,10 @@
 }
 
 .loadMoreBtn:hover {
-    background: linear-gradient(135deg, var(--primary), #0090d6);
+    background: var(--primary);
     color: white;
     border-color: transparent;
-    box-shadow: 0 4px 15px rgba(0, 162, 241, 0.3);
+    box-shadow: var(--shadow-hover);
     transform: translateY(-2px);
 }
 

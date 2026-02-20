@@ -1,6 +1,23 @@
 import type { MetadataRoute } from "next";
 import { PRODUCTS } from "@/data/products";
 
+const CATEGORIES = [
+    "Gov. Tender - Central",
+    "Gov. Tender - State",
+    "Gov. Tender - Municipality",
+    "Cement",
+    "Glass",
+    "Brick and Blocks",
+    "TML Steel",
+    "Tiles and Flooring",
+    "Plumbing",
+    "Electrical/Lighting",
+    "Windows",
+    "Doors",
+    "Hardware/Kitchen",
+    "Aggregates"
+];
+
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = "https://xgram.vercel.app";
 
@@ -11,6 +28,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.6,
     }));
 
+    const categoryUrls = CATEGORIES.map((category) => ({
+        url: `${baseUrl}/?category=${encodeURIComponent(category)}`,
+        lastModified: new Date(),
+        changeFrequency: "weekly" as const,
+        priority: 0.8,
+    }));
+
     return [
         {
             url: baseUrl,
@@ -18,6 +42,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: "daily",
             priority: 1,
         },
+        ...categoryUrls,
         {
             url: `${baseUrl}/about`,
             lastModified: new Date(),

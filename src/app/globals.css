@@ -1,34 +1,60 @@
 :root {
-  --background: #FFFFFF;
-  --bg-secondary: #F4F6F8;
-  --bg-hover: #EDF2F7;
+  /* Brand Blue Scale (Vibrant SaaS Blue) */
+  --blue-50: #eff6ff;
+  --blue-100: #dbeafe;
+  --blue-200: #bfdbfe;
+  --blue-300: #93c5fd;
+  --blue-400: #60a5fa;
+  --blue-500: #3b82f6;
+  --blue-600: #2563eb;
+  --blue-700: #1d4ed8;
+  --blue-800: #1e40af;
+  --blue-900: #1e3a8a;
 
-  --primary: #00A2F1;
-  --primary-hover: #0090d6;
-  --primary-light: rgba(0, 162, 241, 0.08);
+  /* Slate Scale (Darker greys for better contrast) */
+  --slate-50: #f8fafc;
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-300: #cbd5e1;
+  --slate-400: #94a3b8;
+  --slate-500: #64748b;
+  --slate-600: #475569;
+  --slate-700: #334155;
+  --slate-800: #1e293b;
+  --slate-900: #0f172a;
+
+  --background: #FFFFFF;
+  --bg-secondary: var(--slate-50);
+  --bg-hover: var(--slate-100);
+
+  --primary: var(--blue-600);
+  --primary-hover: var(--blue-700);
+  --primary-light: var(--blue-50);
   --primary-foreground: #FFFFFF;
 
-  --footer-bg: #0F1421;
+  --footer-bg: var(--slate-900);
 
-  --secondary: #64748B;
-  --accent: #E2E8F0;
-  --border: #E8ECF1;
-  --border-hover: #CBD5E1;
+  --secondary: var(--slate-500);
+  --accent: var(--slate-200);
+  --border: var(--slate-200);
+  --border-hover: var(--slate-300);
 
-  --text-primary: #0F172A;
-  --text-secondary: #475569;
-  --text-muted: #94A3B8;
+  --text-primary: var(--slate-900);
+  --text-secondary: var(--slate-700);
+  --text-muted: var(--slate-500);
 
   --radius: 10px;
   --radius-lg: 14px;
   --radius-xl: 20px;
   --spacing-base: 1rem;
 
-  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.03);
-  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --shadow-md: 0 4px 16px -2px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.04);
-  --shadow-lg: 0 10px 30px -5px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+  --shadow-lg: 0 10px 30px -5px rgb(0 0 0 / 0.12), 0 4px 6px -4px rgb(0 0 0 / 0.05);
   --shadow-xl: 0 20px 50px -10px rgb(0 0 0 / 0.15);
+  --shadow-hover: 0 12px 30px -8px rgba(37, 99, 235, 0.3);
+  --focus-ring: 0 0 0 3px var(--blue-200);
 
   --max-width: 1360px;
   --header-height: 72px;
@@ -37,9 +63,9 @@
   --font-heading: var(--font-outfit), 'Outfit', sans-serif;
   --font-body: var(--font-dm-sans), 'DM Sans', sans-serif;
 
-  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-base: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.25s ease;
+  --transition-smooth: 0.4s ease;
 }
 
 * {
@@ -93,6 +119,15 @@ input,
 select,
 textarea {
   font-family: var(--font-body);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: var(--focus-ring);
 }
 
 .container {
@@ -116,20 +151,26 @@ textarea {
   letter-spacing: 0.01em;
 }
 
+.btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary), #0090d6);
+  background-color: var(--blue-600);
   color: var(--primary-foreground);
-  box-shadow: 0 2px 8px rgba(0, 162, 241, 0.25);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 162, 241, 0.35);
-  background: linear-gradient(135deg, #0ab4ff, var(--primary));
+  transform: scale(1.03) translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  background-color: var(--blue-500);
 }
 
 .btn-primary:active {
-  transform: translateY(0);
+  transform: scale(0.98) translateY(0);
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.15);
 }
 
 .btn-outline {
@@ -142,6 +183,11 @@ textarea {
   background-color: var(--bg-hover);
   border-color: var(--primary);
   color: var(--primary);
+  transform: scale(1.02);
+}
+
+.btn-outline:active {
+  transform: scale(0.98);
 }
 
 /* ===== Scrollbar ===== */
@@ -156,6 +202,6 @@ textarea {
 
 /* ===== Selection ===== */
 ::selection {
-  background: rgba(0, 162, 241, 0.15);
-  color: var(--text-primary);
+  background: var(--blue-200);
+  color: var(--slate-900);
 }
