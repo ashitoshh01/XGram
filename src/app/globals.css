@@ -1,15 +1,15 @@
 :root {
   /* Brand Blue Scale (Vibrant SaaS Blue) */
-  --blue-50: #eff6ff;
-  --blue-100: #dbeafe;
-  --blue-200: #bfdbfe;
-  --blue-300: #93c5fd;
-  --blue-400: #60a5fa;
-  --blue-500: #3b82f6;
-  --blue-600: #2563eb;
-  --blue-700: #1d4ed8;
-  --blue-800: #1e40af;
-  --blue-900: #1e3a8a;
+  --blue-50: #e6f4fa;
+  --blue-100: #b3e0f5;
+  --blue-200: #80cbf0;
+  --blue-300: #4db7eb;
+  --blue-400: #1aa2e6;
+  --blue-500: #00aaff;
+  --blue-600: #008dd4;
+  --blue-700: #0070a8;
+  --blue-800: #00527d;
+  --blue-900: #003552;
 
   /* Slate Scale (Darker greys for better contrast) */
   --slate-50: #f8fafc;
@@ -28,7 +28,7 @@
   --bg-hover: var(--slate-100);
 
   --primary: var(--blue-600);
-  --primary-hover: var(--blue-700);
+  --primary-hover: var(--blue-500);
   --primary-light: var(--blue-50);
   --primary-foreground: #FFFFFF;
 
@@ -39,7 +39,7 @@
   --border: var(--slate-200);
   --border-hover: var(--slate-300);
 
-  --text-primary: var(--slate-900);
+  --text-primary: #222526;
   --text-secondary: var(--slate-700);
   --text-muted: var(--slate-500);
 
@@ -53,7 +53,7 @@
   --shadow-md: 0 4px 16px -2px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.04);
   --shadow-lg: 0 10px 30px -5px rgb(0 0 0 / 0.12), 0 4px 6px -4px rgb(0 0 0 / 0.05);
   --shadow-xl: 0 20px 50px -10px rgb(0 0 0 / 0.15);
-  --shadow-hover: 0 12px 30px -8px rgba(37, 99, 235, 0.3);
+  --shadow-hover: 0 12px 30px -8px rgba(0, 141, 212, 0.3);
   --focus-ring: 0 0 0 3px var(--blue-200);
 
   --max-width: 1360px;
@@ -159,7 +159,7 @@ textarea:focus {
 .btn-primary {
   background-color: var(--blue-600);
   color: var(--primary-foreground);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 141, 212, 0.25);
 }
 
 .btn-primary:hover {
@@ -170,7 +170,7 @@ textarea:focus {
 
 .btn-primary:active {
   transform: scale(0.98) translateY(0);
-  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.15);
+  box-shadow: 0 2px 4px rgba(0, 141, 212, 0.15);
 }
 
 .btn-outline {
