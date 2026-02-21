@@ -7,11 +7,19 @@ import HeroSlider from "@/components/HeroSlider";
 import FilterSection from "@/components/FilterSection";
 import ProductGrid from "@/components/ProductGrid";
 import styles from "./page.module.css";
-
+import { useSearchParams } from "next/navigation";
 
 import { PRODUCTS } from "@/data/products";
 
 export default function Home() {
+  return (
+    <React.Suspense fallback={<Loader onFinish={() => { }} />}>
+      <HomeContent />
+    </React.Suspense>
+  );
+}
+
+function HomeContent() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [filters, setFilters] = useState({
@@ -21,6 +29,9 @@ export default function Home() {
     sort: "popularity",
     category: "All"
   });
+
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams ? searchParams.get("search") || "" : "";
 
   // Sync selectedCategory (from Bar) with filters.category
   React.useEffect(() => {
@@ -60,6 +71,20 @@ export default function Home() {
   };
 
   const filteredProducts = PRODUCTS.filter(product => {
+    if (searchQuery) {
+      const sq = searchQuery.toLowerCase();
+      const pTitle = product?.title || "";
+      const pCategory = product?.category || "";
+      const pDesc = product?.description || "";
+      const pMaterial = product?.materialType || "";
+
+      if (!pTitle.toLowerCase().includes(sq) &&
+        !pCategory.toLowerCase().includes(sq) &&
+        !pDesc.toLowerCase().includes(sq) &&
+        !pMaterial.toLowerCase().includes(sq)) {
+        return false;
+      }
+    }
     if (filters.category !== "All" && product.category !== filters.category) return false;
     if (parseInt(product.price) > filters.priceRange) return false;
     if (filters.materialType !== "All" && product.materialType !== filters.materialType) return false;

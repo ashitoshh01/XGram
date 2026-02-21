@@ -1,0 +1,65 @@
+.container {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.header {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border, #eee);
+    padding-bottom: 1rem;
+}
+
+.header h1 {
+    font-size: 2rem;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem 0;
+}
+
+.header p {
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.formGroup {
+    margin-bottom: 1.5rem;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.input,
+.textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border, #ddd);
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+    font-family: inherit;
+}
+
+.input:focus,
+.textarea:focus {
+    border-color: var(--primary);
+    outline: none;
+}
+
+.textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.saveBtn {
+    margin-top: 1rem;
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+}

@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 import {
     onAuthStateChanged,
@@ -22,6 +23,7 @@ interface User {
     email: string;
     role: "user" | "admin";
     uid: string;
+    photoURL?: string;
 }
 
 interface AuthContextType {
@@ -32,6 +34,7 @@ interface AuthContextType {
     loginWithGoogle: () => Promise<void>;
     logout: () => void;
     resetPassword: (email: string) => Promise<void>;
+    updateUserProfile: (name: string, photoURL?: string) => Promise<void>;
     isAuthenticated: boolean;
 }
 
@@ -49,6 +52,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                     name: firebaseUser.displayName || "",
                     email: firebaseUser.email || "",
                     uid: firebaseUser.uid,
+                    photoURL: firebaseUser.photoURL || undefined,
                     role: "user", // Default role, can be enhanced with custom claims or DB
                 };
                 setUser(user);
@@ -71,9 +75,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 throw new Error("Please verify your email address before logging in.");
             }
 
-            router.push("/profile");
+            toast.success("Logged in successfully!");
+            router.push("/");
         } catch (error) {
             console.error("Login failed:", (error as Error).message);
+            toast.error("Login failed: " + (error as Error).message);
             throw error;
         }
     };
@@ -88,9 +94,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             await sendEmailVerification(userCredential.user);
             await signOut(auth);
 
+            toast.success("Signup successful! Please check your email to verify.");
             router.push(`/verify-email?email=${encodeURIComponent(email)}`);
         } catch (error) {
             console.error("Signup failed:", (error as Error).message);
+            toast.error("Signup failed: " + (error as Error).message);
             throw error;
         }
     };
@@ -99,13 +107,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         try {
             const provider = new GoogleAuthProvider();
             await signInWithPopup(auth, provider);
-            router.push("/profile");
+            toast.success("Logged in with Google successfully!");
+            router.push("/");
         } catch (error) {
             if ((error as { code?: string }).code === 'auth/popup-closed-by-user') {
                 console.warn("Google sign-in popup closed by user.");
                 return; // Gracefully exit without throwing
             }
             console.error("Google sign in failed:", (error as Error).message);
+            toast.error("Google sign in failed: " + (error as Error).message);
             throw error;
         }
     };
@@ -113,17 +123,39 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const logout = async () => {
         try {
             await signOut(auth);
+            toast.success("Logged out successfully!");
             router.push("/login");
         } catch (error) {
             console.error("Logout failed:", (error as Error).message);
+            toast.error("Logout failed: " + (error as Error).message);
         }
     };
 
     const resetPassword = async (email: string) => {
         try {
             await sendPasswordResetEmail(auth, email);
+            toast.success("Password reset email sent. Please check your inbox.");
         } catch (error) {
             console.error("Reset password failed:", (error as Error).message);
+            toast.error("Reset password failed: " + (error as Error).message);
+            throw error;
+        }
+    };
+
+    const updateUserProfile = async (name: string, photoURL?: string) => {
+        try {
+            if (!auth.currentUser) throw new Error("No user is currently signed in.");
+
+            await updateProfile(auth.currentUser, {
+                displayName: name,
+                photoURL: photoURL || auth.currentUser.photoURL
+            });
+
+            setUser((prev) => prev ? { ...prev, name, photoURL } : null);
+            toast.success("Profile updated successfully!");
+        } catch (error) {
+            console.error("Update profile failed:", (error as Error).message);
+            toast.error("Update profile failed: " + (error as Error).message);
             throw error;
         }
     };
@@ -138,6 +170,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 loginWithGoogle,
                 logout,
                 resetPassword,
+                updateUserProfile,
                 isAuthenticated: !!user,
             }}
         >

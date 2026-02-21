@@ -2,17 +2,43 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Search, User, Menu, X } from "lucide-react";
+import { Search, User, Menu, X, Settings, AlertCircle, LogOut } from "lucide-react";
 import styles from "./Navbar.module.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 
 const Navbar = () => {
-    const { isAuthenticated, user } = useAuth();
+    const { isAuthenticated, user, logout } = useAuth();
     const router = useRouter();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsDropdownOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    const handleSearch = () => {
+        if (searchQuery.trim()) {
+            router.push(`/?search=${encodeURIComponent(searchQuery.trim())}#trending-section`);
+            setIsMenuOpen(false);
+        }
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            handleSearch();
+        }
+    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -26,7 +52,9 @@ const Navbar = () => {
 
     const handleProfileClick = () => {
         if (isAuthenticated) {
-            router.push("/profile");
+            if (window.confirm("Do you want to sign out?")) {
+                logout();
+            }
         } else {
             router.push("/login");
         }
@@ -65,8 +93,11 @@ const Navbar = () => {
                         type="text"
                         placeholder="Search materials, brands, categories..."
                         className={styles.searchInput}
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onKeyDown={handleKeyDown}
                     />
-                    <Search className={styles.searchIcon} size={17} />
+                    <Search className={styles.searchIcon} size={17} onClick={handleSearch} style={{ cursor: 'pointer' }} />
                 </div>
 
                 {/* Desktop Navigation */}
@@ -100,16 +131,55 @@ const Navbar = () => {
                                 </button>
                             </>
                         ) : (
-                            <div onClick={handleProfileClick} style={{ cursor: 'pointer' }}>
-                                <div className={styles.userAvatar}>
-                                    {user?.name ? (
-                                        <span style={{ fontSize: "14px", fontWeight: "bold" }}>
-                                            {user.name.charAt(0).toUpperCase()}
-                                        </span>
-                                    ) : (
-                                        <User size={18} color="var(--text-secondary)" />
-                                    )}
+                            <div style={{ position: 'relative' }} ref={dropdownRef}>
+                                <div onClick={() => setIsDropdownOpen(!isDropdownOpen)} style={{ cursor: 'pointer' }}>
+                                    <div className={styles.userAvatar} style={{ padding: user?.photoURL ? 0 : '', overflow: 'hidden' }}>
+                                        {user?.photoURL ? (
+                                            <Image src={user.photoURL} alt="User Avatar" width={36} height={36} style={{ width: '100%', height: '100%', objectFit: 'cover' }} unoptimized />
+                                        ) : user?.name ? (
+                                            <span style={{ fontSize: "14px", fontWeight: "bold" }}>
+                                                {user.name.charAt(0).toUpperCase()}
+                                            </span>
+                                        ) : (
+                                            <User size={18} color="var(--text-secondary)" />
+                                        )}
+                                    </div>
                                 </div>
+
+                                {isDropdownOpen && (
+                                    <div style={{
+                                        position: 'absolute',
+                                        top: '120%',
+                                        right: 0,
+                                        width: '220px',
+                                        backgroundColor: '#ffffff',
+                                        borderRadius: '8px',
+                                        boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+                                        border: '1px solid var(--border)',
+                                        padding: '0.5rem',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: '0.25rem',
+                                        zIndex: 50
+                                    }}>
+                                        <div style={{ padding: '0.5rem', borderBottom: '1px solid var(--border)', marginBottom: '0.25rem' }}>
+                                            <p style={{ fontWeight: 600, fontSize: '0.95rem', margin: 0, color: 'var(--text-primary)' }}>{user?.name || "User"}</p>
+                                            <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: 0, wordBreak: 'break-all', marginTop: '0.2rem' }}>{user?.email}</p>
+                                        </div>
+                                        <button onClick={() => { setIsDropdownOpen(false); router.push("/account"); }} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem', width: '100%', textAlign: 'left', background: 'transparent', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '0.9rem', color: 'var(--text-primary)' }} onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'var(--bg-secondary)'} onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
+                                            <User size={16} /> Your Account
+                                        </button>
+                                        <button onClick={() => { setIsDropdownOpen(false); router.push("/settings"); }} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem', width: '100%', textAlign: 'left', background: 'transparent', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '0.9rem', color: 'var(--text-primary)' }} onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'var(--bg-secondary)'} onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
+                                            <Settings size={16} /> Settings
+                                        </button>
+                                        <button onClick={() => { setIsDropdownOpen(false); router.push("/report-issue"); }} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem', width: '100%', textAlign: 'left', background: 'transparent', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '0.9rem', color: 'var(--text-primary)' }} onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'var(--bg-secondary)'} onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
+                                            <AlertCircle size={16} /> Report Issue
+                                        </button>
+                                        <button onClick={() => { setIsDropdownOpen(false); logout(); }} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem', width: '100%', textAlign: 'left', background: 'transparent', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '0.9rem', color: '#e53e3e' }} onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'var(--bg-secondary)'} onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
+                                            <LogOut size={16} /> Logout
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         )}
                     </div>
@@ -155,6 +225,9 @@ const Navbar = () => {
                     <input
                         type="text"
                         placeholder="Search XGram..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onKeyDown={handleKeyDown}
                         style={{
                             width: "100%",
                             padding: "0.75rem 2.5rem 0.75rem 1rem",
@@ -169,12 +242,14 @@ const Navbar = () => {
                     />
                     <Search
                         size={16}
+                        onClick={handleSearch}
                         style={{
                             position: "absolute",
                             right: "0.8rem",
                             top: "50%",
                             transform: "translateY(-50%)",
                             color: "var(--text-muted)",
+                            cursor: "pointer",
                         }}
                     />
                 </div>
@@ -225,7 +300,7 @@ const Navbar = () => {
                             className="btn btn-primary"
                             style={{ width: "100%", padding: "0.75rem" }}
                         >
-                            My Profile
+                            Sign Out
                         </button>
                     )}
                 </div>
