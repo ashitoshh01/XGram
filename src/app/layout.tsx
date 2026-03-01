@@ -3,6 +3,7 @@ import { Outfit, DM_Sans } from "next/font/google";
 import "./globals.css";
 import ClientProviders from "@/providers/ClientProviders";
 import LayoutContent from "@/layouts/LayoutContent";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -148,6 +149,7 @@ export default function RootLayout({
         <ClientProviders>
           <LayoutContent>
             {children}
+            <WhatsAppButton />
           </LayoutContent>
         </ClientProviders>
       </body>

@@ -18,6 +18,18 @@ const ProductDetail = () => {
     const product = (PRODUCTS.find((p) => p.id === id) || PRODUCTS[0]) as Product;
     const [quantity, setQuantity] = useState(1);
 
+    const handleRequestQuote = () => {
+        const message = `Hi, I would like to request a quote for:
+
+*Product*: ${product.title}
+*Quantity*: ${quantity} ${product.unit || ''}
+*Price*: ₹${product.price} / ${product.unit || ''}
+*Details*: ${product.description}`;
+
+        const encodedMessage = encodeURIComponent(message);
+        window.open(`https://wa.me/919604019444?text=${encodedMessage}`, '_blank');
+    };
+
     return (
         <main className="container" style={{ padding: '2rem 1.5rem 4rem' }}>
             {/* Back Button */}
@@ -100,7 +112,11 @@ const ProductDetail = () => {
                                 style={{ padding: '0.6rem 1rem', fontSize: '1rem', color: 'var(--text-secondary)' }}
                             >+</button>
                         </div>
-                        <button className="btn btn-primary" style={{ padding: '0.8rem 2.5rem', fontSize: '0.95rem', flex: 1 }}>
+                        <button
+                            className="btn btn-primary"
+                            style={{ padding: '0.8rem 2.5rem', fontSize: '0.95rem', flex: 1 }}
+                            onClick={handleRequestQuote}
+                        >
                             Request Quote
                         </button>
                     </div>
