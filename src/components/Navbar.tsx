@@ -267,7 +267,7 @@ const Navbar = () => {
                     Terms
                 </Link>
 
-                <div className={styles.actions} style={{ marginTop: "auto" }}>
+                <div className={styles.actions} style={{ marginTop: "2rem", paddingBottom: "2rem" }}>
                     {!isAuthenticated ? (
                         <>
                             <button
